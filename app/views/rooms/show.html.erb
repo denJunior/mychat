@@ -22,6 +22,7 @@
 </header>
 
 <%= turbo_stream_from @room %>
+
 <div class="name p-2 rounded-3 bg-blue-200" data-id="<%= params[:id] %>">
   <h3 class="text-3xl"><%= @room.title %></h3>
 </div>
@@ -34,7 +35,7 @@
       <div class="our_messages" id="messages">
         <%= turbo_frame_tag :messages, class: 'our' do %>
           <% @messages.each do |message| %>
-            <%= render partial: 'messages/message', locals: { message: message, cur_user: @current_user } %>
+            <%= render partial: 'messages/message', locals: { message: message, cur_user: 1 } %>
           <% end %>
         <% end %>
       </div>

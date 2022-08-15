@@ -10,12 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-<<<<<<< HEAD
-ActiveRecord::Schema[7.0].define(version: 2022_07_29_091924) do
-=======
-ActiveRecord::Schema.define(version: 2022_07_28_133852) do
-
->>>>>>> parent of cc4ec55... updated rails to version 7
+ActiveRecord::Schema[7.0].define(version: 2022_08_15_071920) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -24,7 +19,7 @@ ActiveRecord::Schema.define(version: 2022_07_28_133852) do
     t.string "record_type", null: false
     t.bigint "record_id", null: false
     t.bigint "blob_id", null: false
-    t.datetime "created_at", null: false
+    t.datetime "created_at", precision: nil, null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
@@ -36,8 +31,8 @@ ActiveRecord::Schema.define(version: 2022_07_28_133852) do
     t.text "metadata"
     t.string "service_name", null: false
     t.bigint "byte_size", null: false
-    t.string "checksum", null: false
-    t.datetime "created_at", null: false
+    t.string "checksum"
+    t.datetime "created_at", precision: nil, null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
@@ -49,46 +44,37 @@ ActiveRecord::Schema.define(version: 2022_07_28_133852) do
 
   create_table "messages", force: :cascade do |t|
     t.text "body"
-    t.integer "user_id", null: false
-    t.integer "recipient_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "file"
     t.bigint "room_id"
+    t.bigint "user_id"
     t.index ["room_id"], name: "index_messages_on_room_id"
+    t.index ["user_id"], name: "index_messages_on_user_id"
   end
 
   create_table "rooms", force: :cascade do |t|
     t.integer "user_id", null: false
     t.string "title", default: "", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "user_rooms", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.bigint "room_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["room_id"], name: "index_user_rooms_on_room_id"
-    t.index ["user_id"], name: "index_user_rooms_on_user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
+    t.datetime "reset_password_sent_at", precision: nil
+    t.datetime "remember_created_at", precision: nil
     t.string "confirmation_token"
-    t.datetime "confirmed_at"
-    t.datetime "confirmation_sent_at"
+    t.datetime "confirmed_at", precision: nil
+    t.datetime "confirmation_sent_at", precision: nil
     t.string "unconfirmed_email"
     t.decimal "age"
     t.string "country"
     t.string "avatar"
     t.string "user_name", default: ""
-    t.datetime "birthday"
+    t.datetime "birthday", precision: nil
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
@@ -98,6 +84,5 @@ ActiveRecord::Schema.define(version: 2022_07_28_133852) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "messages", "rooms"
-  add_foreign_key "user_rooms", "rooms"
-  add_foreign_key "user_rooms", "users"
+  add_foreign_key "messages", "users"
 end

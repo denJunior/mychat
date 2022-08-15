@@ -7,8 +7,19 @@
       <!--          < /div>-->
       <%# end %>
       <div class="alert alert-primary message shadow-md" id="<%= message.user_id %>" data-controller="change">
-        <p class="text color time"><%= l(message.created_at, format: :message_time) %> </p>
-        <p class="text content"><%= Obscenity.replacement(:stars).sanitize(message.body) %></p>
+        <div class="flex justify-start w-100 mt-1">
+          <p class="text content">
+            <% if message.user.user_name %>
+              <%= message.user.user_name %>
+            <% else %>
+              <%= message.user.email %>
+            <% end %>
+          </p>
+        </div>
+        <div class="flex justify-between items-center">
+          <p class="text color time"><%= l(message.created_at, format: :message_time) %> </p>
+          <p class="text content text-black"><%= Obscenity.replacement(:stars).sanitize(message.body) %></p>
+        </div>
       </div>
     </div>
 <% end %>

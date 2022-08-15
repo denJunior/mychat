@@ -3,7 +3,7 @@ class MessagesController < ApplicationController
   before_action :set_messages, only: %i[message_sent]
 
   def message_sent
-    @new_message = current_user.sent_messages.create(recipient_id: params[:recipient_id], body: params[:body],
+    @new_message = current_user.sent_messages.create(body: params[:body],
                                                      room_id: params[:room_id])
     if @new_message.save
       @new_message.broadcast_append_to @new_message.room

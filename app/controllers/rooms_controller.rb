@@ -1,14 +1,12 @@
 class RoomsController < ApplicationController
   before_action :user_and_room, only: %i[show set_rec_id]
+  before_action :rec_for_create, only: %i[create]
 
   def show
     @messages = @room.messages
-    if [] === @messages
-      Message.create(recipient_id: @recipient.id, user_id: current_user.id,
-                     body: "#{@user_name} joined to room", room_id: params[:room_id])
-      Message.create(recipient_id: current_user.id, user_id: @recipient.id,
-                     body: "#{@recipient_user_name} joined to room", room_id: params[:room_id])
-
+    if @messages.count < 2
+      @recipient.sent_messages.create(body: params[:body],
+                                      room_id: params[:room_id])
     end
     @old_time = begin
       Message.last.created_at
@@ -29,6 +27,10 @@ class RoomsController < ApplicationController
                                @recipient.user_name
                              end
     end
+  end
+
+  def rec_for_create
+    @recipient = User.find params[:recipient_id]
   end
 
   def create

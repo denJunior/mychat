@@ -17,10 +17,10 @@ module Api
 
         # head :ok
         @new_message = if params[:file]
-                         @current_user.sent_messages.create(recipient_id: @recipient.id, body: params[:body],
+                         @current_user.sent_messages.create(body: params[:body],
                                                             file: params[:file].original_filename, room_id: params[:room_id])
                        else
-                         @current_user.sent_messages.create(recipient_id: @recipient.id, body: params[:body],
+                         @current_user.sent_messages.create(body: params[:body],
                                                             room_id: params[:room_id])
                        end
         if @new_message.save

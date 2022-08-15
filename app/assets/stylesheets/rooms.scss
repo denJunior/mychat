@@ -87,13 +87,14 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
   min-width: 10px;
   max-width: 80%;
-  min-height: 10px;
-  max-height: 10px;
+  min-height: 50px;
+  max-height: 50px;
   text-decoration: none;
   position: relative;
-  //color: #766AD0;
+  color: #951d32;
   font-size: 14px;
   font-weight: 700;
   white-space: nowrap;
